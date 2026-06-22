@@ -202,9 +202,9 @@ Fields:
 
 ## Avalon Prisma mapping notes
 
-Avalon already has `Premium` and `Payment` tied to Stripe fields. For Avalon integration:
+Avalon already has `Premium` and `Payment` tied to provider-specific fields. For Avalon integration:
 
-- Add new provider-neutral tables instead of expanding more Stripe columns on `Premium`.
+- Add new provider-neutral tables instead of expanding more provider-specific columns on `Premium`.
 - Keep `Premium.tier` as a cache updated from billing state.
-- Keep legacy Stripe columns for migration/compat, but stop using them as the canonical access source once billing tables are live.
+- Keep legacy provider columns for migration/compat, but stop using them as the canonical access source once billing tables are live.
 - Existing `Payment` can be backfilled/bridged, but new kit-owned charge attempts should have their own table or a clear adapter into `Payment`.

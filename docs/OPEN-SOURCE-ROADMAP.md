@@ -35,7 +35,6 @@ The first public README should clearly say:
 - Uses app-owned subscription/invoice logic.
 - Supports UPI Autopay, card recurring, and e-mandate patterns.
 - Helps with upgrades, prorations, discounts, cancellations, retries, and customer portal primitives.
-- Does not include Stripe.
 - Does not store raw payment credentials.
 - Requires your own Razorpay account and compliance review.
 

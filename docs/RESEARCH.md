@@ -2,7 +2,7 @@
 
 ## Correct OSS search target
 
-The open-source target is **not** Stripe plus Razorpay. The target is a Razorpay recurring SaaS billing kit for:
+The open-source target is a Razorpay recurring SaaS billing kit for:
 
 - UPI Autopay
 - cards
@@ -14,7 +14,7 @@ The open-source target is **not** Stripe plus Razorpay. The target is a Razorpay
 - discounts
 - dunning/retries
 
-Avalon’s existing Stripe integration is separate internal context.
+Avalon’s existing billing integration is separate internal context.
 
 ## What appears to exist
 
@@ -71,7 +71,7 @@ These are broader platforms. The gap remains a focused Razorpay recurring UPI ki
 
 ## Product conclusion
 
-Build a focused kit around mandate-token billing, not a full billing platform and not a Stripe abstraction.
+Build a focused kit around mandate-token billing, not a full billing platform or a gateway-neutral abstraction.
 
 The valuable open-source contribution is the Razorpay-specific recurring billing glue:
 

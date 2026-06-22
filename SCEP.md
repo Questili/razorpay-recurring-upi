@@ -21,7 +21,7 @@ SCEP here means **Scope, Constraints, and Execution Plan**. This is the implemen
 
 ### Do not build
 
-- Stripe support in the public OSS package.
+- Non-Razorpay provider support in the initial public OSS package.
 - Avalon-specific pricing/entitlements.
 - A hosted commercial billing service.
 
@@ -94,11 +94,11 @@ Exit criteria: external adopter can run the example with Razorpay test credentia
 ### Milestone 5 — Avalon integration
 
 - Add provider-neutral billing tables in Avalon.
-- Backfill existing Stripe state into Avalon’s internal billing domain.
+- Backfill existing billing state into Avalon’s internal billing domain.
 - Integrate this package only for Razorpay recurring billing.
-- Keep existing Avalon Stripe implementation internal and unchanged until provider-neutral entitlement helpers are ready.
+- Keep existing Avalon billing paths internal and unchanged until provider-neutral entitlement helpers are ready.
 
-Exit criteria: Avalon supports existing Stripe users plus new Razorpay recurring users without mixed active providers.
+Exit criteria: Avalon supports existing billing users plus new Razorpay recurring users without mixed active providers.
 
 ### Milestone 6 — OSS extraction
 
