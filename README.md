@@ -9,14 +9,11 @@ storage adapter and a Next.js example app.
 
 ## Why this was built
 
-Razorpay gives you the recurring payment rails: mandate authorization, tokens, webhooks, and subsequent
-charges. A SaaS app still has to decide how a plan becomes a subscription, how much to charge after an
-upgrade or discount, what to do while UPI debits stay pending, when to retry, when to ask for
-reauthorization, and how to show users a billing portal that matches the product.
+Razorpay supports the core payment primitives needed for recurring billing in India: UPI Autopay, card recurring tokens, e-mandates, webhooks, and subsequent token charges. But those primitives are not the same thing as a complete SaaS billing system.
 
-This kit exists for that gap. It keeps the subscription lifecycle in your app, gives you storage and
-provider interfaces, and ships the Razorpay recurring flow you would otherwise stitch together from
-orders, tokens, invoices, webhooks, and cron jobs.
+A real SaaS app still needs to manage plans, mandates, subscriptions, invoices, retries, upgrades, downgrades, cancellations, discounts, entitlement access, and customer-facing billing actions. Stripe Billing and Stripe Customer Portal bundle many of those lifecycle pieces; Razorpay’s recurring APIs leave much more of that logic to the merchant.
+
+This package exists to fill that gap as an open-source, app-owned billing layer for Indian SaaS products. It uses Razorpay as the payment rail, while keeping billing state, product rules, and customer lifecycle logic inside your application.
 
 ## What it does
 
