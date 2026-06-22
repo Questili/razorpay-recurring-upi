@@ -1,0 +1,58 @@
+{
+  "name": "@questili/razorpay-recurring-upi-prisma",
+  "version": "0.1.0",
+  "description": "Prisma storage adapter for @questili/razorpay-recurring-upi. Persists mandates, subscriptions, invoices, dunning, discounts, and webhook idempotency.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "prisma"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev --schema=prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@questili/razorpay-recurring-upi": "workspace:*",
+    "@prisma/client": "^5.22.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Questili/razorpay-recurring-upi.git",
+    "directory": "packages/prisma-adapter"
+  },
+  "homepage": "https://github.com/Questili/razorpay-recurring-upi#readme",
+  "bugs": {
+    "url": "https://github.com/Questili/razorpay-recurring-upi/issues"
+  },
+  "keywords": [
+    "razorpay",
+    "upi",
+    "autopay",
+    "recurring-payments",
+    "billing",
+    "saas",
+    "subscriptions",
+    "mandates",
+    "prisma",
+    "postgresql"
+  ]
+}

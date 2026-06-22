@@ -1,0 +1,55 @@
+{
+  "name": "@questili/razorpay-recurring-upi",
+  "version": "0.1.0",
+  "description": "Core billing primitives for Razorpay recurring UPI and UPI Autopay SaaS flows: mandates, subscriptions, invoices, dunning, and entitlements.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./storage/in-memory": {
+      "types": "./dist/storage/in-memory.d.ts",
+      "import": "./dist/storage/in-memory.js"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./dist/testing.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Questili/razorpay-recurring-upi.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Questili/razorpay-recurring-upi#readme",
+  "bugs": {
+    "url": "https://github.com/Questili/razorpay-recurring-upi/issues"
+  },
+  "keywords": [
+    "razorpay",
+    "upi",
+    "autopay",
+    "recurring-payments",
+    "billing",
+    "saas",
+    "subscriptions",
+    "mandates"
+  ]
+}

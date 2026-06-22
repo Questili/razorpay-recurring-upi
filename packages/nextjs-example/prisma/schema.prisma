@@ -1,0 +1,326 @@
+// Example app Prisma schema.
+//
+// The billing tables are OWNED by @questili/razorpay-recurring-upi-prisma.
+// This is a copy of that package's schema so this example app can run its own
+// `prisma generate` + `prisma migrate dev` against the same PostgreSQL database.
+//
+// If you already run migrations from the prisma-adapter package, you do not need
+// to run them here — both target the same tables. Keep them in sync if the kit's
+// schema changes (treat the prisma-adapter schema as the source of truth).
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ---- Enums (mirror packages/core/src/types/enums.ts exactly) ----
+
+enum BillingMethod {
+  upi
+  card
+  emandate
+}
+
+enum ProviderName {
+  razorpay
+}
+
+enum Currency {
+  INR
+}
+
+enum PlanInterval {
+  monthly
+  annual
+}
+
+enum MandateStatus {
+  initiated
+  confirmed
+  rejected
+  cancelled
+  paused
+  expired
+  unknown
+}
+
+enum SubscriptionStatus {
+  draft
+  pending_authorization
+  active
+  past_due
+  payment_pending
+  reauthorization_required
+  cancel_at_period_end
+  canceled
+  expired
+}
+
+enum InvoiceStatus {
+  draft
+  open
+  paid
+  void
+  uncollectible
+}
+
+enum InvoiceReason {
+  initial
+  renewal
+  upgrade
+  manual_adjustment
+}
+
+enum InvoiceLineType {
+  plan
+  proration
+  discount
+  adjustment
+}
+
+enum ChargeAttemptStatus {
+  scheduled
+  submitted
+  pending
+  captured
+  failed_retryable
+  failed_terminal
+  reauthorization_required
+}
+
+enum FailureClass {
+  retryable
+  reauthorization_required
+  support_required
+  terminal
+}
+
+enum CancelReason {
+  user_requested
+  merchant_initiated
+  mandate_revoked
+  payment_failed_terminal
+}
+
+enum DiscountType {
+  percent
+  fixed_amount
+  free_trial
+}
+
+enum DiscountDuration {
+  once
+  repeating
+  forever
+}
+
+enum WebhookEventStatus {
+  processed
+  skipped_duplicate
+  failed
+}
+
+// ---- Models (owned by the kit) ----
+
+model BillingCustomer {
+  id                 String   @id @default(cuid())
+  externalCustomerId String
+  email              String?
+  name               String?
+  contact            String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([externalCustomerId])
+}
+
+model BillingProviderCustomer {
+  id                 String       @id @default(cuid())
+  billingCustomerId  String
+  provider           ProviderName
+  providerCustomerId String
+  metadata           Json
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  @@unique([provider, providerCustomerId])
+}
+
+model BillingMandate {
+  id                     String        @id @default(cuid())
+  billingCustomerId      String
+  provider               ProviderName
+  providerCustomerId     String
+  providerTokenId        String?
+  authorizationPaymentId String?
+  authorizationOrderId   String?
+  method                 BillingMethod
+  status                 MandateStatus
+  currency               Currency
+  maxAmount              BigInt
+  frequency              String?
+  expiresAt              DateTime?
+  safeInstrumentLabel    String?
+  providerMetadata       Json
+  createdAt              DateTime      @default(now())
+  updatedAt              DateTime      @updatedAt
+
+  @@unique([provider, providerTokenId])
+  @@index([authorizationPaymentId])
+  @@index([billingCustomerId])
+}
+
+model BillingPlan {
+  id        String       @id @default(cuid())
+  name      String
+  interval  PlanInterval
+  currency  Currency
+  amount    BigInt
+  active    Boolean
+  features  Json
+  metadata  Json
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model BillingSubscription {
+  id                      String             @id @default(cuid())
+  billingCustomerId       String
+  mandateId               String?
+  planId                  String
+  status                  SubscriptionStatus
+  currentPeriodStart      DateTime
+  currentPeriodEnd        DateTime
+  nextBillingAt           DateTime?
+  accessEndsAt            DateTime
+  cancelAtPeriodEnd       Boolean
+  cancellationRequestedAt DateTime?
+  canceledAt              DateTime?
+  cancelReason            CancelReason?
+  pendingPlanId           String?
+  pendingPlanEffectiveAt  DateTime?
+  trialEndsAt             DateTime?
+  metadata                Json
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+
+  @@index([billingCustomerId])
+  @@index([status])
+  @@index([nextBillingAt])
+  @@index([mandateId])
+}
+
+model BillingInvoice {
+  id            String        @id @default(cuid())
+  subscriptionId String
+  customerId    String
+  status        InvoiceStatus
+  reason        InvoiceReason
+  currency      Currency
+  subtotal      BigInt
+  discountTotal BigInt
+  taxTotal      BigInt
+  total         BigInt
+  periodStart   DateTime
+  periodEnd     DateTime
+  dueAt         DateTime
+  paidAt        DateTime?
+  metadata      Json
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([subscriptionId])
+}
+
+model BillingInvoiceLine {
+  id          String          @id @default(cuid())
+  invoiceId   String
+  type        InvoiceLineType
+  description String
+  quantity    Int
+  unitAmount  BigInt
+  amount      BigInt
+  periodStart DateTime
+  periodEnd   DateTime
+  metadata    Json
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([invoiceId])
+}
+
+model BillingChargeAttempt {
+  id                 String              @id @default(cuid())
+  invoiceId          String
+  subscriptionId     String
+  mandateId          String
+  provider           ProviderName
+  providerOrderId    String?
+  providerPaymentId  String?
+  status             ChargeAttemptStatus
+  amount             BigInt
+  currency           Currency
+  failureClass       FailureClass?
+  failureCode        String?
+  failureReason      String?
+  nextRetryAt        DateTime?
+  attemptNumber      Int
+  idempotencyKey     String              @unique
+  providerRequestRef String?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@index([providerPaymentId])
+  @@index([invoiceId])
+  @@index([status, nextRetryAt])
+}
+
+model BillingDiscount {
+  id               String          @id @default(cuid())
+  code             String          @unique
+  type             DiscountType
+  value            BigInt
+  duration         DiscountDuration
+  durationInCycles Int?
+  validFrom        DateTime?
+  validUntil       DateTime?
+  maxRedemptions   Int?
+  active           Boolean
+  appliesToPlanIds Json?
+  metadata         Json
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+}
+
+model BillingDiscountRedemption {
+  id             String   @id @default(cuid())
+  discountId     String
+  customerId     String
+  subscriptionId String?
+  invoiceId      String?
+  redeemedAt     DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([discountId, subscriptionId])
+  @@index([discountId])
+}
+
+model BillingWebhookEvent {
+  id              String             @id @default(cuid())
+  provider        ProviderName
+  providerEventId String
+  eventType       String
+  processedAt     DateTime?
+  status          WebhookEventStatus
+  payloadHash     String
+  error           String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@unique([provider, providerEventId])
+}

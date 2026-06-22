@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": [
+    "packages/core/src/**/*.ts",
+    "packages/core/test/**/*.ts",
+    "packages/razorpay/src/**/*.ts",
+    "packages/razorpay/test/**/*.ts",
+    "packages/prisma-adapter/src/**/*.ts"
+  ]
+}

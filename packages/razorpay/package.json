@@ -1,0 +1,49 @@
+{
+  "name": "@questili/razorpay-recurring-upi-provider",
+  "version": "0.1.0",
+  "description": "Razorpay Recurring Payments provider for @questili/razorpay-recurring-upi: UPI Autopay, card recurring, e-mandate mandates, and token charging.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@questili/razorpay-recurring-upi": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Questili/razorpay-recurring-upi.git",
+    "directory": "packages/razorpay"
+  },
+  "homepage": "https://github.com/Questili/razorpay-recurring-upi#readme",
+  "bugs": {
+    "url": "https://github.com/Questili/razorpay-recurring-upi/issues"
+  },
+  "keywords": [
+    "razorpay",
+    "upi",
+    "autopay",
+    "recurring-payments",
+    "billing",
+    "saas",
+    "subscriptions",
+    "mandates"
+  ]
+}

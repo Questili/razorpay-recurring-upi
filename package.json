@@ -1,0 +1,43 @@
+{
+  "name": "razorpay-recurring-upi",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Open-source SaaS billing kit for Razorpay recurring UPI, UPI Autopay, cards, and e-mandates.",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@11.5.3",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter \"!razorpay-recurring-upi-example\" run build",
+    "typecheck": "pnpm --filter @questili/razorpay-recurring-upi run build && pnpm -r --filter \"!razorpay-recurring-upi-example\" run typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "example:dev": "pnpm --filter razorpay-recurring-upi-example dev",
+    "clean": "pnpm -r exec rimraf dist .turbo node_modules/.cache || true"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Questili/razorpay-recurring-upi.git"
+  },
+  "homepage": "https://github.com/Questili/razorpay-recurring-upi#readme",
+  "bugs": {
+    "url": "https://github.com/Questili/razorpay-recurring-upi/issues"
+  },
+  "keywords": [
+    "razorpay",
+    "upi",
+    "autopay",
+    "recurring-payments",
+    "billing",
+    "saas",
+    "subscriptions",
+    "mandates"
+  ]
+}

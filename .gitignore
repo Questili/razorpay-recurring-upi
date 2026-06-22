@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.turbo/
+*.log
+.DS_Store
+coverage/
+.vitest-cache/
+.env
+.env.local
+.env.*.local
+packages/nextjs-example/.next/
+packages/nextjs-example/out/
+packages/prisma-adapter/prisma/migrations/**/migration.sql.backup
+*.tsbuildinfo
