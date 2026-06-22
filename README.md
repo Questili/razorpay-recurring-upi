@@ -7,6 +7,17 @@ storage adapter and a Next.js example app.
 
 > **Status: alpha.** The API is functional but may change before `1.0`. Not production-hardened yet.
 
+## Why this was built
+
+Razorpay gives you the recurring payment rails: mandate authorization, tokens, webhooks, and subsequent
+charges. A SaaS app still has to decide how a plan becomes a subscription, how much to charge after an
+upgrade or discount, what to do while UPI debits stay pending, when to retry, when to ask for
+reauthorization, and how to show users a billing portal that matches the product.
+
+This kit exists for that gap. It keeps the subscription lifecycle in your app, gives you storage and
+provider interfaces, and ships the Razorpay recurring flow you would otherwise stitch together from
+orders, tokens, invoices, webhooks, and cron jobs.
+
 ## What it does
 
 - **Mandate-based recurring charging** over UPI Autopay, card recurring tokens, and e-mandates.
@@ -23,7 +34,6 @@ storage adapter and a Next.js example app.
 
 ## What it does NOT do
 
-- **No Stripe.** Stripe is out of scope for this kit.
 - **No raw credential storage.** The kit never persists `RAZORPAY_KEY_SECRET`,
   `RAZORPAY_WEBHOOK_SECRET`, or `BILLING_PREVIEW_TOKEN_SECRET`. You supply them from your secret
   manager at runtime.

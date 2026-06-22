@@ -4,7 +4,7 @@
 
 Build a reusable open-source billing kit for SaaS products that need Razorpay recurring payments through UPI Autopay, cards, and e-mandates without outsourcing the whole subscription lifecycle to a closed customer portal.
 
-The kit should provide provider-agnostic billing primitives, with Razorpay Recurring Payments as the first adapter. The public kit must not depend on Avalon or Stripe.
+The kit should provide provider-agnostic billing primitives, with Razorpay Recurring Payments as the first adapter. The public kit must not depend on Avalon or any host app.
 
 ## Core product requirements
 
@@ -22,7 +22,7 @@ The kit should provide provider-agnostic billing primitives, with Razorpay Recur
 
 ## Non-goals
 
-- Do not include Stripe in the OSS package.
+- Do not build a general payment-provider abstraction in the initial OSS package.
 - Do not build a complete hosted billing service.
 - Do not make tax/legal claims beyond storing invoice metadata.
 - Do not include Avalon-specific products, users, or entitlement policies.

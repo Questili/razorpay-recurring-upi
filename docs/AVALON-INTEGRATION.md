@@ -4,7 +4,7 @@ This document is for the follow-up Avalon implementation after the OSS planning 
 
 ## Integration principle
 
-Avalon should keep existing Stripe behavior working while adding Razorpay recurring billing through this package. The public package should not import Avalon code or mention Stripe.
+Avalon should keep existing billing behavior working while adding Razorpay recurring billing through this package. The public package should not import Avalon code or mention host-app billing history.
 
 ## Avalon phases
 
@@ -12,9 +12,9 @@ Avalon should keep existing Stripe behavior working while adding Razorpay recurr
 
 - Add Avalon Prisma tables corresponding to the kit entities.
 - Add an Avalon storage adapter for the kit.
-- Backfill existing Stripe subscribers into provider-neutral billing records for entitlement reads only.
-- Keep existing Stripe Checkout, webhook, and Billing Portal paths unchanged.
-- Add provider-neutral entitlement helpers and migrate access checks away from `premium.stripeSubscriptionStatus`.
+- Backfill existing subscribers into provider-neutral billing records for entitlement reads only.
+- Keep existing checkout, webhook, and billing portal paths unchanged.
+- Add provider-neutral entitlement helpers and migrate access checks away from provider-specific premium status fields.
 
 ### Phase 2 — Razorpay mandate setup
 
@@ -28,7 +28,7 @@ Avalon should keep existing Stripe behavior working while adding Razorpay recurr
 ### Phase 3 — Razorpay billing portal
 
 - Add provider-aware billing settings.
-- Existing Stripe users continue seeing Stripe Billing Portal.
+- Existing billing users continue seeing their current billing portal.
 - Razorpay users see Avalon-owned billing management:
   - current plan
   - current renewal date
@@ -54,7 +54,7 @@ Avalon should keep existing Stripe behavior working while adding Razorpay recurr
 
 ## Provider lock rules in Avalon
 
-- Existing Stripe subscribers stay on Stripe until manually migrated/canceled.
+- Existing subscribers stay on their current billing provider until manually migrated or canceled.
 - New Razorpay recurring users get provider locked to Razorpay after successful mandate/subscription activation.
 - A Premium account must have at most one active billing owner.
 - Payment history may contain multiple providers over time, but active entitlement should come from one current billing subscription.
